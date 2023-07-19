@@ -85,14 +85,39 @@ In the second chapter of *Data Feminism*, Klein and D'Ignazio describe 4 ways th
 
 ### Critical Analysis & Reflection: Before You Code (questions above)
 
-* **(R1a)** ... (about 25-50 words)
-* **(R1b)** ... (about 25-50 words)
-* **(R1c)** ... (about 25-50 words)
-* **(R1d)** ... (about 25-50 words)
+_All of the following responses have been written using information from the 3 sources linked above_
+
+* **(R1a)** 
+
+The creators decided to implement CountLove because they wanted to **consolidate information about protests** focusing on social justice in the US. **An important co-goal of Count Love** is to provide an avenue for the public to _develop a holistic framework_ regarding the role of protests in the grand scheme of developing a more inclusive society.
+
+* **(R1b)** 
+
+Police brutality inflicted **immense suffering on the black community**, resulting in the _gathering of Americans_ into an **all-out nationwide protest**. This fight is both against the racist institutions responsible for **committing violence towards the black community** and for us to **never forget the trauma** caused by racist institutions on the black community.
+
+* **(R1c)** 
+
+The creators, _Nathan Perkins and Tommy Leung_, are **MIT masters-graduated engineers** whose focuses are the _individual's duties to society_ ("civic responsibility") and _society's guidelines for the individual_("public policy").
+
+* **(R1d)** 
+
+CountLove _includes_ public protests that are specifically **not categorized under the premise of business**. CountLove _excludes_ most events **categorized under general assemblies**, such as political promotions, charity events, and historical festivities.
+
 * **(R1e)** ... (about 25-50 words)
+
+CountLove consolidates protest data from **internet news articles** via _"crawling"_, where categorical and numerical protest data are inputted into CountLove after "crawling" the internet for **protest-specific keywords**, which are noted and then examined. 
+
 * **(R1f)** ... (about 25-50 words)
+
+CountLove _underestimates_ every individual protest turnout based on the **given statistic in the crawled news article** unless the article **specifies the protest attendance** or unless the article **doesn't provide one**, in which case there is _no entered value_ for protest turnout. The _problem_ with this estimation is that the inputted value for protest attendance **may be several scales off** and thus provides the reader with an **incorrect connotation** regarding the extent of the protest.
+
 * **(R1g)** ... (bullet points fine; about 50 words)
+
+The CountLove FAQ mentions the fostering of **empathy** and **diversity** in society as a prospective goal. In this context, _empathy_ is the **understanding of hardships** endured by an individual or community and the subsequent willingness to **help them**; _diversity_ is the **acknowledgement and respect** given to individuals and communities of **various identities and cultures**, who can all contribute valuable thoughts and experiences.  
+
 * **(R1h)** ... (bullet points fine; about 50 words)
+
+A _direct stakeholder_ of CountLove is a **data scientist** who uses CountLove to determine the average turnout for BLM protests in each American city. An _indirect stakeholder_ of CountLove is **someone reading an article** with cited CountLove data that may or may not underestimate the full scale of a protest's attendance. 
 
 ### Part 3: Locations (`analysis.R`)
 * **(R3a)** ... (about 25-50 words)
