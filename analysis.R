@@ -1,11 +1,11 @@
 # rpractice / ps-1
 #
 # A2: Assignment 2 (A2)
-#    INFO-201 (Autumn 2022)
-#    dhendry@uw.edu
+#    INFO-201 (Spring 2023)
+#    dhruvj20@uw.edu
 
 # Practice set info ---- 
-practice.begin("A2", learner="[your name]", email="[your e-mail]")
+practice.begin("A2", learner="Dhruv Jagannath", email="dhruvj20@uw.edu")
 
 # Your 44 prompts ----
 
@@ -126,7 +126,14 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 #                                         Note 03.
 # 1a: Load the `stringr` package, which you will use later.
 
+install.packages("stringr")
+library(stringr)
+
 # 1b: Load the data from https://countlove.org/data/data.csv (Variable: `protests`)
+
+protests <- read.csv("/Users/dhruv/Downloads/INFO 201/assignment-02-info201su-dhruvj20/data.csv", 
+header = TRUE, sep = ",", stringsAsFactors = TRUE)
+View(protests)
 
 #                                         Note 04.
 #     *BEST PRACTICE:* Use View() to open and examine the dataset. Some key questions to ask:  
@@ -136,8 +143,12 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 
 # 1c: Use an R function to determine how many protests are in the dataset? (Variable: `num_protests`)
 
+num_protests <- dim(protests)[1]
+
 # 1d: Use an R function to determine how many how many values (also known as
 #    attributes or features) have been recorded for each protest (Variable: `num_features`)
+
+num_features <- dim(protests)[2]
 
 #                                         Note 05.
 ## Part 2: Attendees ----
@@ -146,19 +157,31 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 
 # 2a: Extract the `Attendees` column into a variable called `num_attendees`. (Variable: `num_attendees`)
 
+num_attendees <- protests$Attendees
+
 #                                         Note 06.
 #     For the following prompts, you will need to consider missing values. In R,
 #     missing values are denoted by the symbol NA, which means "Not Available."
 
 # 2b: What is the lowest number of attendees? (Variable: `min_attendees`)
 
+min_attendees <- min(num_attendees, na.rm = TRUE)
+
 # 2c: What is the highest number of attendees? (Variable: `max_attendees`)
+
+max_attendees <- max(na.omit(num_attendees))
 
 # 2d: What is the mean number of attendees? (Variable: `mean_attendees`)
 
+mean_attendees <- mean(na.omit(num_attendees))
+
 # 2e: What is the median number of attendees? (Variable: `median_attendees`)
 
+median_attendees <- median(na.omit(num_attendees))
+
 # 2f: What is the difference between the mean and median number of attendees? (Variable: `mean_median_diff`)
+
+median_mean_diff <- mean_attendees-median_attendees
 
 #                                         Note 07.
 #     *Consideration* What does the difference between the mean and the median
@@ -170,9 +193,19 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 #    variable called `attendees_distribution`. (Note: Later in the course, we
 #    will use more refined plotting methods.) (Variable: `attendees_distribution`)
 
+attendees_distribution <- boxplot(na.omit(num_attendees), 
+ylab = "Number of Attendees", main = "Boxplot Showing Number of Attendees")
+
 # 2h: Create another boxplot of the *log* of the number of attendees.
 #    Store the plot in a variable `log_attendees_distribution`. (Note: You will
 #    likely see see a warning in the console, which is expected.) (Variable: `log_attendess_distribution`)
+
+log_attendess_distribution <- boxplot(log(na.omit(num_attendees), 10), 
+ylab = "Log (Number of Attendees)", main = "Boxplot Showing Log Number of Attendees")
+
+# https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/log
+
+# Used the above source to fix my previous line of code so the boxplot would be correct
 
 #                                         Note 08.
 ## Part 3: Locations -----
@@ -180,13 +213,24 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 
 # 3a: Extract the `Location` column. (Variable: `locations`)
 
+locations <- protests$Location
+
 # 3b: How many *unique* locations are in the dataset? (Variable: `num_locations`)
+
+num_locations <- length(unique(locations))
 
 # 3c: How many protests occurred in Washington State (WA)? (Hint: Use a function, 
 #    called str_detect(), from the stringr package (see https://stringr.tidyverse.org/), 
 #    to detect the presence (or absence) of WA".) (Variable: `num_in_wa`)
+new_list <- str_detect(locations, ", WA") + str_detect(locations, ", wA") 
+num_in_wa <- length(new_list[new_list == TRUE])
+
+# https://github.com/rstudio/cheatsheets/blob/main/strings.pdf
+# Used this source for str_detect function
 
 # 3d: What proportion of protests occurred in Washington? (Variable: `prop_in_wa`)
+
+prop_in_wa <- paste0(num_in_wa * 100/length(locations), "%") 
 
 #                                         Note 09.
 #     *R3a: REFLECTION:* Does the number of protests in Washington surprise you?
@@ -210,24 +254,64 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 #       2. You should count the number of locations that *match* the `location'
 #          parameter. For example, `Seattle` should be a match for "Seattle, WA". (Variable: `count_in_location`)
 
+count_in_location <- function(LOCATION) {
+  N <- 0
+  is_location_there <- str_detect(locations, LOCATION)
+  if(length(is_location_there[is_location_there == TRUE]) == 0){
+    output <- paste("Location", LOCATION, "not found.")
+  }else{
+  N <- length(is_location_there[is_location_there == TRUE])
+  output <- paste0("There were ", N, " ", "protests in ", LOCATION, ".")
+  }
+  return(output)
+}
+
 # 3f: Use your function above to compute the number of protests in "Washington, DC". (Variable: `dc_summary`)
+
+dc_summary <- count_in_location("Washington, DC")
 
 # 3g: Use your function above to compute the number of protests in "Minneapolis". (Variable: `minneapolis_summary`)
 
+minneapolis_summary <- count_in_location("Minneapolis")
+
 # 3h: Use your function above to demonstrate that it works correctly for a
 #    location that is not in the data set. (Variable: `missing_summary`)
+
+missing_summary <- count_in_location("Ljubljana")
 
 # 3i: Create a new vector `states` that holds the state locations, that is, the
 #    last two characters of each value in the `locations` vector. (Hint: You may
 #    want to again use a function from the `stringr` package 
 #    Check, for example, the `str_sub()` function.) (Variable: `states`)
 
+states <- str_sub(locations, nchar(as.character(locations))-1, nchar(as.character(locations)))
+
 # 3j: Create a vector of the unique states in your dataset. (Variable: `uniq_states`)
+
+uniq_states <- (unique(states))
+index <- 1
+while(index <= length(uniq_states)){
+  if (uniq_states[[index]] == "co" | uniq_states[[index]] == "ce" | 
+      uniq_states[[index]] == "te"){
+        str_sub(uniq_states[[index]],1,2) <- NA
+  }
+  index <- index + 1
+}
+uniq_states <- unique(str_to_upper(uniq_states))
+rm(index)
+
+# https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/appendix_a.html
+# Used this for output help
 
 # 3k: Create a summary sentence for each state by passing your `uniq_states`
 #    variable and `count_in_location` variables to the `sapply()` function.
 #    (Hint: Study section 8.3 in the textbook. It is important to understand
 #    the `sapply()` and `lapply()` functions.) (Variable: `state_summary`)
+
+state_summary <- sapply(uniq_states, count_in_location)
+
+# https://www.geeksforgeeks.org/difference-between-lapply-vs-sapply-in-r/
+# Used the above link for sapply vs lapply clarification and syntax
 
 #                                         Note 10.
 #     *R3b: REFLECTION:* You have applied your function to an entire vector 
@@ -237,7 +321,24 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 #    `table()` function and by storing the result in the variable `state_table`.
 #   
 #    *SUGGESTION:* Use the View() function to more easily examine the table. (Variable: `state_table`)
+other_index <- 1
+while(other_index <= length(states)){
+  if(states[[other_index]] == "ce" | states[[other_index]] == "co" | 
+  states[[other_index]] == "te"){
+    str_sub(states[other_index], 1, 2) <- NA
+  }
+  other_index = other_index + 1
+}
+state_table <- table(str_to_upper(states))
+rm(other_index)
+View(state_table)
 
+# For some reason, need to run code all the way from assigning 
+# states variable for the while loop to work after it's already been run once, 
+# not an issue for previous while loop
+
+# https://statisticsglobe.com/r-error-in-if-while-condition-missing-value-where-true-false-needed#:~:text=start%20right%20away%3A-,Basic%20Explanation%3A%20Missing%20Value%20Where%20TRUE%2FFALSE%20Needed,is%20(partly)%20not%20existent.&text=In%20the%20previous%20R%20syntax,parentheses%20of%20the%20if%20statement.
+# Used this source for a while loop error
 #                                         Note 11.
 #     *R3c: REFLECTION:* Looking at the `state_table` variable, what data quality
 #     issues do you notice? How would you change your analysis? (Note: There is no
@@ -245,6 +346,8 @@ practice.begin("A2", learner="[your name]", email="[your e-mail]")
 
 # 3m: What was the maximum number of protests in a state? (Hint: Use the
 #    `state_table` variable.) (Variable: `max_in_state`)
+
+max_in_state <- max(state_table)
 
 #                                         Note 12.
 ## Part 4: Dates ----

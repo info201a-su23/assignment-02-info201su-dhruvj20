@@ -120,9 +120,17 @@ The CountLove FAQ mentions the fostering of **empathy** and **diversity** in soc
 A _direct stakeholder_ of CountLove is a **data scientist** who uses CountLove to determine the average turnout for BLM protests in each American city. An _indirect stakeholder_ of CountLove is **someone reading an article** with cited CountLove data that may or may not underestimate the full scale of a protest's attendance. 
 
 ### Part 3: Locations (`analysis.R`)
-* **(R3a)** ... (about 25-50 words)
-* **(R3b)** ... (about 25-50 words)
-* **(R3c)** ... (about 25-50 words)
+* **(R3a)** 
+
+Outside of BLM, I can't remember very much about Washington's protest history. The [George Floyd Protest in Seattle Wikipedia](https://en.wikipedia.org/wiki/George_Floyd_protests_in_Seattle) goes in-depth on BLM protests in Seattle, so after reading that, I'm **surprised** Washington's protest proportion is so low, but that may also be due to _other US states potentially having more documented BLM posts_ in the CountLove dataset, in addition to _other protests fighting for different social justice causes_.
+
+* **(R3b)** 
+
+In all honesty, when I read this question, I wasn't expecting anything amazing, but when I saw the results, I was extremely impressed with the capabilities of this function. Just being able to parse through a vector of state names and tell me exactly how many protests occurred is an excellent example of compressing an excess amount of data into a more readable format. 
+
+* **(R3c)** 
+
+While the current display of data in the created table is useful because it provides us with the **total number of protests in the timespan of the data**, it is still _limited_ because we lack **quantitative nuance** beyond this, as all this data tells us is the _total number_. Adding some new code to sort through _how many protests occurred in each documented year_ as well as the _median & mean protest turnout_ would increase the quality of this data.
 
 ### Critical Analysis & Reflection: After You Code (questions above)
 * **(R7h)** ... (100 words or more)
