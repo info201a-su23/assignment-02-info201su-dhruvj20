@@ -133,6 +133,20 @@ In all honesty, when I read this question, I wasn't expecting anything amazing, 
 While the current display of data in the created table is useful because it provides us with the **total number of protests in the timespan of the data**, it is still _limited_ because we lack **quantitative nuance** beyond this, as all this data tells us is the _total number_. Adding some new code to sort through _how many protests occurred in each documented year_ as well as the _median & mean protest turnout_ would increase the quality of this data.
 
 ### Critical Analysis & Reflection: After You Code (questions above)
-* **(R7h)** ... (100 words or more)
+* **(R7h)** 
+
+The CountLove project's **purpose**, as outlined in [the FAQ](https://countlove.org/faq.html), is to _collect_ (#1) all available data on documented protests in a repository, _allowing easy access_ for anyone who wants **information about the documented protests**. 
+
+An interpretation of this is that the creators of CountLove consider this information **"missing" from the public eye**, and thus the database is the creators' contributed **"powerful starting point"** to _teach_ (#4) anyone looking for a _path to think about the importance of this information_. 
+
+Also, CountLove keeping the protest data in this format allows prospective data feminists to **interact with the repository** and learn as much as they possibly can by **manipulating the data**, thus _"empowering"_ (#4) them to be **informed on how other feminists feel about social issues and how they choose to voice their opinions**.
+
 * **(R7i)** ... (50 words or more)
+
+I was surprised by the fact that **only 45** of the protests documented in this database were classified under the **purpose of racial injustice**. I just assumed that with _all the news coverage_ surrounding the protests against **institutionalized racism towards black people**, there would be _more documented protests_. I wonder if the method used to **select protests to document** in the database had a significant effect on this. 
+
 * **(R7j)** ... (50 words or more)
+
+I want to apply the coding progression used in earlier parts of the problem to the **curated articles** to see if I can sort through the protest coverage. The goal would be to investigate whether or not there's something statistically interesting about various protest categories that dictates the way they are covered on the internet.  
+
+

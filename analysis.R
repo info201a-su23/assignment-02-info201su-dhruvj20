@@ -4,6 +4,15 @@
 #    INFO-201 (Spring 2023)
 #    dhruvj20@uw.edu
 
+# Sources used for most of this assignment: 
+# https://github.com/rstudio/cheatsheets/blob/main/strings.pdf
+# https://cran.r-project.org/doc/contrib/Short-refcard.pdf
+# https://canvas.uw.edu/courses/1643812/files/folder/Lectures_PG?preview=107651199
+# https://canvas.uw.edu/courses/1643812/files/folder/Lectures_PG?preview=107685009
+# https://canvas.uw.edu/courses/1643812/files/folder/Lectures_PG?preview=107752100
+# https://learning.oreilly.com/library/view/programming-skills-for/9780135159071/part03.xhtml
+# Chapters 5-8 were used from the textbook^
+
 # Practice set info ---- 
 practice.begin("A2", learner="Dhruv Jagannath", email="dhruvj20@uw.edu")
 
@@ -169,15 +178,15 @@ min_attendees <- min(num_attendees, na.rm = TRUE)
 
 # 2c: What is the highest number of attendees? (Variable: `max_attendees`)
 
-max_attendees <- max(na.omit(num_attendees))
+max_attendees <- max(num_attendees, na.rm = TRUE)
 
 # 2d: What is the mean number of attendees? (Variable: `mean_attendees`)
 
-mean_attendees <- mean(na.omit(num_attendees))
+mean_attendees <- mean(num_attendees, na.rm = TRUE)
 
 # 2e: What is the median number of attendees? (Variable: `median_attendees`)
 
-median_attendees <- median(na.omit(num_attendees))
+median_attendees <- median(num_attendees, na.rm = TRUE)
 
 # 2f: What is the difference between the mean and median number of attendees? (Variable: `mean_median_diff`)
 
@@ -222,11 +231,9 @@ num_locations <- length(unique(locations))
 # 3c: How many protests occurred in Washington State (WA)? (Hint: Use a function, 
 #    called str_detect(), from the stringr package (see https://stringr.tidyverse.org/), 
 #    to detect the presence (or absence) of WA".) (Variable: `num_in_wa`)
+
 new_list <- str_detect(locations, ", WA") + str_detect(locations, ", wA") 
 num_in_wa <- length(new_list[new_list == TRUE])
-
-# https://github.com/rstudio/cheatsheets/blob/main/strings.pdf
-# Used this source for str_detect function
 
 # 3d: What proportion of protests occurred in Washington? (Variable: `prop_in_wa`)
 
@@ -284,11 +291,11 @@ missing_summary <- count_in_location("Ljubljana")
 #    want to again use a function from the `stringr` package 
 #    Check, for example, the `str_sub()` function.) (Variable: `states`)
 
-states <- str_sub(locations, nchar(as.character(locations))-1, nchar(as.character(locations)))
+states <- c(str_sub(locations, nchar(as.character(locations))-1, nchar(as.character(locations))))
 
 # 3j: Create a vector of the unique states in your dataset. (Variable: `uniq_states`)
 
-uniq_states <- (unique(states))
+uniq_states <- c(unique(states))
 index <- 1
 while(index <= length(uniq_states)){
   if (uniq_states[[index]] == "co" | uniq_states[[index]] == "ce" | 
@@ -297,7 +304,7 @@ while(index <= length(uniq_states)){
   }
   index <- index + 1
 }
-uniq_states <- unique(str_to_upper(uniq_states))
+uniq_states <- c(unique(str_to_upper(uniq_states)))
 rm(index)
 
 # https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/appendix_a.html
@@ -308,7 +315,7 @@ rm(index)
 #    (Hint: Study section 8.3 in the textbook. It is important to understand
 #    the `sapply()` and `lapply()` functions.) (Variable: `state_summary`)
 
-state_summary <- sapply(uniq_states, count_in_location)
+state_summary <- c(sapply(uniq_states, count_in_location))
 
 # https://www.geeksforgeeks.org/difference-between-lapply-vs-sapply-in-r/
 # Used the above link for sapply vs lapply clarification and syntax
@@ -321,6 +328,7 @@ state_summary <- sapply(uniq_states, count_in_location)
 #    `table()` function and by storing the result in the variable `state_table`.
 #   
 #    *SUGGESTION:* Use the View() function to more easily examine the table. (Variable: `state_table`)
+
 other_index <- 1
 while(other_index <= length(states)){
   if(states[[other_index]] == "ce" | states[[other_index]] == "co" | 
@@ -358,18 +366,36 @@ max_in_state <- max(state_table)
 #    process the values as dates, which are *fortunately* already in an optimal
 #    format for parsing.) (Variable: `dates`)
 
+dates <- as.Date(protests$Date)
+
 # 4b: What is the most recent date in the dataset? (Variable: `most_recent`)
 
+most_recent <- sort(dates)[[length(sort(dates))]]
+
 # 4c: What is the earliest date in the dataset? (Variable: `earliest`)
+
+earliest <- sort(dates)[[1]]
 
 # 4d: What is the length of the time span of the dataset? (Hint: R can do math with
 #    dates pretty well by default!) (Variable: `time_span`)
 
+time_span <- print(most_recent - earliest)
+
 # 4e: Create a vector of the dates that are in 2020. (Variable: `in_2020`)
 
+true_false_2020dates <- as.character(str_detect(dates, "2020"))
+in_2020 <- dates[str_which(true_false_2020dates, "TRUE")]
+rm(true_false_2020dates)
+  
 # 4f: Create a vector of the dates that are in 2019. (Variable: `in_2019`)
 
+true_false_2019dates <- as.character(str_detect(dates, "2019"))
+in_2019 <- dates[str_which(true_false_2019dates, "TRUE")]
+rm(true_false_2019dates)
+
 # 4g: What is the ratio of the number of protests in 2020 compared to 2019? (Variable: `ratio_2020_2019`)
+
+ratio_2020_2019 <- length(in_2020)/length(in_2019)
 
 #                                         Note 13.
 #     *CONSIDER:* Does the change in the number of protests from 2019 to 2020
@@ -381,20 +407,40 @@ max_in_state <- max(state_table)
 #           N is the number of protests on that date; and
 #           DATE is the date provided. (Variable: `count_on_date`)
 
+count_on_date <- function(DATE){
+  N <- length(str_which(dates, DATE))
+  how_many_protests <- (paste0("There were ", N, " protests on ", DATE, "."))
+  return(how_many_protests)
+}
+
 # 4i: Using your function you just wrote, how many protests were there on
 #    May 24th, 2020? (Variable: `num_on_may_24`)
 
+num_on_may_24 <- count_on_date("2020-05-24")
+
 # 4j: Using your function you just wrote, how many protests were there on
 #    May 31th, 2020? (Variable: `num_on_may_31`)
+
+num_on_may_31 <- count_on_date("2020-05-31")
 
 # 4k: How many protests occurred each month in 2020? (Hint: Use the `months()`
 #    function, your `in_2020` dates, and the `table()` function. If you like, you
 #    can do this in multiple steps.) (Variable: `by_month_table`)
 
+protests_per_month_2020 <- months(in_2020)
+by_month_table <- table(protests_per_month_2020)
+rm(protests_per_month_2020)
+
 # 4l: As a comparison, let's assess the change between July 2019 and July 2020.
 #    What is the *difference* in the number of protests between July 2020 and
 #    July 2019? You'll want to do this in multiple steps as you see fit, though
 #    your answer should be stored in the variable. (Variable: `change_july_protests`)
+
+num_jul_2020 <- length(str_which(dates, "2020-07"))
+num_jul_2019 <- length((str_which(dates, "2019-07")))
+change_july_protests <- num_jul_2020 - num_jul_2019
+rm(num_jul_2019)
+rm(num_jul_2020)
 
 #                                         Note 14.
 ## Part 5: Protest Purpose ----
@@ -406,7 +452,11 @@ max_in_state <- max(state_table)
 #    *CONSIDER:* The name of this column, "Event..legacy..see.tags.", is very odd. Why? 
 #    What can be learned from this column name? (Variable: `purpose`)
 
+purpose <- protests$Event..legacy..see.tags.
+
 # 5b: How many different purposes are listed in the dataset? (Variable: `num_purposes`)
+
+num_purpose <- unique(purpose)
 
 # 5c: That's quite a few! Why are there so many purposes? Type `print(purpose)` to
 #    examine the values in the vector. You will notice a common pattern. Here, for
@@ -451,11 +501,33 @@ max_in_state <- max(state_table)
 #    to regular expressions and R. Take your time. You will likely need to do some
 #    thoughtful trial and error. (Variable: `get_purposes`)
 
+get_purposes <- function(){
+  new_num_purpose <- str_split_fixed(num_purpose, " \\(.*\\)", n = 2)[, 1]
+  return(new_num_purpose)
+}
+
+# https://stackoverflow.com/questions/24173194/remove-parentheses-and-text-within-from-strings-in-r
+# https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html
+# https://www.geeksforgeeks.org/string-manipulation-in-r/#
+# I started looking at regular expressions with the 2nd source 
+# and then used it to understand how the parentheses and everything inside was removed
+# via the solution provided for a way to solve the issue in the first source
+# I thought about string split and string replace but the issue I was running into 
+# was that I didn't know how to handle the parentheses and everything inside, so
+# I looked up a resource for some help
+
 # 5d: Show that your function, `get_purposes()` works. (Variable: `high_level_purpose`)
+
+high_level_purpose <- get_purposes()
 
 # 5e: How many "high level" purposes have you identified? (Variable: `num_high_level`)
 
+num_high_level <- unique(high_level_purpose)
+
 # 5f: Use the table() function to count the number of protests for each high level purpose. (Variable: `high_level_table`)
+
+high_level_table <- table(high_level_purpose)
+View(high_level_table)
 
 #                                         Note 15.
 #     *CONSIDER:* Use View() to examine your `high_level_table` variable. What
@@ -572,6 +644,8 @@ write_report <- function(md_doc, fname="~/Documents/info201/reports/report.md") 
 
 # 6a: Write the filter_positions() function, as described above. Please comment 
 #    your function. (Variable: `filter_protests`)
+
+filter_protests
 
 # 6b: Write the filter_and_report() function, as described above. Please comment 
 #    your function. (Variable: `filter_and_report`)
