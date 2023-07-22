@@ -14,7 +14,7 @@
 # Chapters 5-8 were used from the textbook^
 
 # Practice set info ---- 
-practice.begin("A2", learner="Dhruv Jagannath", email="dhruvj20@uw.edu")
+# practice.begin("A2", learner="Dhruv Jagannath", email="dhruvj20@uw.edu")
 
 # Your 44 prompts ----
 
@@ -234,6 +234,7 @@ num_locations <- length(unique(locations))
 
 new_list <- str_detect(locations, ", WA") + str_detect(locations, ", wA") 
 num_in_wa <- length(new_list[new_list == TRUE])
+rm(new_list)
 
 # 3d: What proportion of protests occurred in Washington? (Variable: `prop_in_wa`)
 
@@ -636,7 +637,7 @@ format_doc <- function(protest_df, purpose, position_taken=NULL) {
 
 # A helper function to write the report to a file
 # NOTE: Check and update the filename for your machine
-write_report <- function(md_doc, fname="~/Documents/info201/reports/report.md") {
+write_report <- function(md_doc, fname="/Users/dhruv/Downloads/INFO 201/assignment-02-info201su-dhruvj20/report_") {
   output_fn <- file(fname, "w")
   writeLines(md_doc, output_fn)
   close(output_fn)
@@ -645,14 +646,59 @@ write_report <- function(md_doc, fname="~/Documents/info201/reports/report.md") 
 # 6a: Write the filter_positions() function, as described above. Please comment 
 #    your function. (Variable: `filter_protests`)
 
-filter_protests
+filter_positions <- function(purpose, position_taken=NULL){
+  # Assigning the function name to a function with correct arguments, default of
+  # position_taken should be null as specified in instructions
+  all_tags <- protests$Tags
+  # Referencing all the tags in the protest data frame of the CountLove dataset and 
+  # assigning it to a variable
+  purposes_and_positions <- str_split_fixed(all_tags, "; ", n = 2)
+  # Splitting the tags into a 2-column matrix by the semicolon and space after, 
+  # as shown in the example
+  if (is.null(position_taken) == TRUE){
+  # setting the test case of a position_taken value input as null into an if statement
+    desired_positions <- purposes_and_positions[, 2][purposes_and_positions[, 1] == purpose]
+  # setting all of the positions we want into a list where the purpose in the first 
+  # column of the matrix is the same as the purpose inputted into the function
+  }
+  else {
+    desired_positions <- purposes_and_positions[, 2][purposes_and_positions[, 1] == purpose & 
+    purposes_and_positions[, 2] == position_taken]
+  # setting all of the positions we want into a list where the purpose in the first 
+  # column of the matrix is the same as the purpose inputted into the function and the
+  # position in the second column of the matrix is the same as the position_taken inputted
+  # into the function
+  }
+  filtered_data_frame <- data.frame(protests[all_tags = paste0(purpose, "; ", 
+  desired_positions)])
+  # Creating a new data frame out of the purposes data frame where the tags column is set 
+  # to the intended tag format with the purpose and the positions separated by a semicolon
+  # and a space
+  return (filtered_data_frame)
+  # Returning the data frame we want
+}
+
+# https://stackoverflow.com/questions/24173194/remove-parentheses-and-text-within-from-strings-in-r
+# Code for the string split function came from this source (same as other question)
 
 # 6b: Write the filter_and_report() function, as described above. Please comment 
 #    your function. (Variable: `filter_and_report`)
 
+filter_and_report <- function(purpose, position_taken = NULL){
+  # Assigning the function to the appropriate variable name
+  desired_dataframe <- filter_positions(purpose, position_taken)
+  # Assigning the dataframe output of filter_positions to a variable name
+  formatted_report <- format_doc(desired_dataframe, purpose, position_taken)
+  # Running the format_doc function and setting that to a variable to
+  # create the report before returning the report
+  return (formatted_report)
+}
 #                                         Note 18.
 # 6c: Demonstrate that your two functions, filter_protests() and 
 #    and filter_and_report(), work correctly. Comment on your tests. 
 #    For example, do your functions have limitations? Or, do they 
 #    work perfectly? If so, how do you know> Do think these two 
 #    functions are useful? What might you do next if you had more time?
+first_test <- filter_positions("Environment", "For wilderness preservation")
+# This function didn't work mainly because I had an unused argument when I was trying
+# to create the data frame
